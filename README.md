@@ -246,6 +246,12 @@
         <td>2021-11-08 11:32:00</td>
     </tr>
     <tr >
+        <td>title_</td>
+        <td>String</td>
+        <td>标题</td>
+        <td>5</td>
+    </tr>
+    <tr >
         <td>summary_</td>
         <td>String</td>
         <td>文档摘要</td>
@@ -269,13 +275,19 @@
         <td>类型：folder/documentation/年 文件夹/文件/年份/月份/日记</td>
         <td>documentation</td>
     </tr>
-    <tr >
-        <td>lastTime_parent_id</td>
-        <td>string</td>
-        <td>上次父节点id</td>
-        <td>32位的uuid</td>
-    </tr>
 </table>
+
 ## 2、用户表
 
 ## 3、操作记录表
+
+| 字段         | 类型   | 说明       | 示例                                                 |
+| ------------ | ------ | ---------- | ---------------------------------------------------- |
+| id_          | Long   | 主键       |                                                      |
+| uid          | String | 关联id     |                                                      |
+| type_        | String | 操作类型   | add/delete/update/select/reduction  增/删/改/查/还原 |
+| table_       | String | 操作表数据 |                                                      |
+| associate_id | String | 关联id     |                                                      |
+| option_date  | Date   | 操作时间   |                                                      |
+| option_json  | String | 操作数据   |                                                      |
+| option_user  | String | 操作人     |                                                      |

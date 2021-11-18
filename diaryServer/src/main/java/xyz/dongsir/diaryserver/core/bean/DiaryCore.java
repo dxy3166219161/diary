@@ -23,7 +23,7 @@ public class DiaryCore {
     @TableId(value = "id_", type = IdType.AUTO)
     private Long id;
 
-    /** 属性名：父级id uuid **/
+    /** 属性名：id uuid **/
     @TableField("uid_")
     private String uid;
 

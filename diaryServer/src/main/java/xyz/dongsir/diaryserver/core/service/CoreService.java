@@ -9,6 +9,9 @@ package xyz.dongsir.diaryserver.core.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Service;
 import xyz.dongsir.diaryserver.core.bean.DiaryCore;
+import xyz.dongsir.diaryserver.core.model.DiaryCoreTreeModel;
+
+import java.util.List;
 
 /**
  * Description:
@@ -25,7 +28,68 @@ import xyz.dongsir.diaryserver.core.bean.DiaryCore;
  */
 @Service
 public interface CoreService extends IService<DiaryCore> {
+    // TODO 关于列表的查询需要各个不同的系统进行组合，重新查询
+
+    /**
+     * @description: 新增核心
+     * @param: [diaryCore]
+     * @return: void
+     * @author dongxingyu
+     * @date: 2021/11/18 9:22
+     */
     void addCore(DiaryCore diaryCore);
 
+    /**
+     * @description: 修改核心数据
+     * @param: [diaryCore]
+     * @return: void
+     * @author dongxingyu
+     * @date: 2021/11/18 9:22
+     */
     void updateCore(DiaryCore diaryCore);
+
+    /**
+     * @description: 移入回收站
+     * @param: [id, recycleBinId]
+     * @return: void
+     * @author dongxingyu
+     * @date: 2021/11/18 9:29
+     */
+    void moveToTrash(Long id , String recycleBinId);
+
+    /**
+     * @description: 移动
+     * @param: [id, purposeId]
+     * @return: void
+     * @author dongxingyu
+     * @date: 2021/11/18 9:30
+     */
+    void moveCore(Long id,String purposeId);
+
+    /** 
+     * @description: 删除核心 
+     * @param: [id] 
+     * @return: void 
+     * @author dongxingyu
+     * @date: 2021/11/18 9:36
+     */ 
+    void deleteCore(Long id) throws Exception;
+    
+    /** 
+     * @description: 清空回收站 
+     * @param: [purposeId] 
+     * @return: void 
+     * @author dongxingyu
+     * @date: 2021/11/18 9:37
+     */ 
+    void clearRecycleBin(String purposeId);
+
+    /** 
+     * @description: 获取核心树 
+     * @param: [parentId] 
+     * @return: java.util.List<xyz.dongsir.diaryserver.core.model.DiaryCoreTreeModel> 
+     * @author dongxingyu
+     * @date: 2021/11/18 10:10
+     */ 
+    DiaryCoreTreeModel findCoreTree(String parentId);
 }

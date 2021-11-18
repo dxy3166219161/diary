@@ -24,4 +24,7 @@ import java.io.Serializable;
 public class GlobalConstant implements Serializable {
     /** 属性名： 状态 Y **/
     public static final String STATUS_Y = "Y";
+
+    /** 属性名： 状态 N **/
+    public static final String STATUS_N = "N";
 }

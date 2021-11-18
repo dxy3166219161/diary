@@ -1,9 +1,3 @@
-/*
- * FileName: CoreServiceImpl
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.core.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -155,8 +149,8 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
      */ 
     @Override
     public DiaryCoreTreeModel findCoreTree(String parentId) {
-        // TODO 集成登录后补充用户账号
-        String userAccount = "";
+        // TODO 集成登录后补充用户账号,默认root
+        String userAccount = "root";
         DiaryCore diaryCore = diaryCoreMapper.selectByUidAndUserAccount(parentId,userAccount);
         DiaryCoreTreeModel diaryCoreTreeModel = new DiaryCoreTreeModel();
         diaryCoreTreeModel.setId(diaryCore.getId());

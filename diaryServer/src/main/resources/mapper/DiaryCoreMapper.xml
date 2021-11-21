@@ -14,4 +14,10 @@
     <select id="selectByUidAndUserAccount" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
         select t.* from diary_core t where t.uid_ = #{uid} and t.user_account = #{userAccount}
     </select>
+    <select id="findByUidAndTitleAndTypeAndUserAccount" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
+        select t.* from diary_core t where t.uid_ = #{uid} and t.title_ = #{title} and t.type_ = #{type} and t.user_account = #{userAccount}
+    </select>
+    <select id="findByUid" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
+        select t.* from diary_core t where t.uid_ = #{uid}
+    </select>
 </mapper>

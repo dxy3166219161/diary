@@ -28,4 +28,8 @@ public interface DiaryCoreMapper extends BaseMapper<DiaryCore> {
     List<DiaryCore> selectByParentIdAndUserAccount(String purposeId, String userAccount);
 
     DiaryCore selectByUidAndUserAccount(String uid, String userAccount);
+
+    List<DiaryCore> findByUidAndTitleAndTypeAndUserAccount(String uid,String title, String type, String userAccount);
+
+    DiaryCore findByUid(String uid);
 }

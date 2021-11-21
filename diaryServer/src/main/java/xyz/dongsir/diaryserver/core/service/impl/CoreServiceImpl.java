@@ -41,7 +41,7 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
      * @date: 2021/11/16 10:20
      */
     @Override
-    public void addCore(DiaryCore diaryCore){
+    public String addCore(DiaryCore diaryCore){
         String uuid = UUIDUtil.getUUID();
         diaryCore.setUid(uuid);
         // TODO 后续登录加入后补充逻辑，目前默认root
@@ -51,6 +51,7 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
         diaryCore.setStatus(GlobalConstant.STATUS_Y);
         // 存入数据库
         diaryCoreMapper.insert(diaryCore);
+        return diaryCore.getUid();
     }
 
     /**
@@ -191,5 +192,30 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
             return diaryCoreTreeModelList;
         }
         return null;
+    }
+
+    /**
+     * 根绝标题、类型查询核心
+     * @param title
+     * @param type
+     * @return
+     */
+    @Override
+    public List<DiaryCore> findCoreByUidAndTitleAndType(String uid,String title,String type){
+        // TODO 用户获取
+        String userAccount = "root";
+        List<DiaryCore> diaryCoreList = diaryCoreMapper.findByUidAndTitleAndTypeAndUserAccount(uid,title,type,userAccount);
+        return diaryCoreList;
+    }
+
+    @Override
+    public DiaryCore findByUid(String uid){
+        DiaryCore diaryCore = diaryCoreMapper.findByUid(uid);
+        return diaryCore;
+    }
+
+    @Override
+    public List<DiaryCore> selectByParentIdAndUserAccount(String parentId, String userAccount) {
+        return diaryCoreMapper.selectByParentIdAndUserAccount(parentId,userAccount);
     }
 }

@@ -25,8 +25,14 @@ public class CoreDataConstant implements Serializable {
     /** 属性名： 核心数据根id - 日记 **/
     public static final String CORE_DATA_PARENT_FOOT_ID_DIRAY = "0";
 
+    /** 属性名： 核心数据根id - 日记回收站 **/
+    public static final String CORE_DATA_PARENT_FOOT_ID_DIRAY_RECYCLE = "3";
+
     /** 属性名： 核心数据根id - 文档 **/
     public static final String CORE_DATA_PARENT_FOOT_ID_DOCUMENT = "1";
+
+    /** 属性名： 核心数据根id - 文档回收站 **/
+    public static final String CORE_DATA_PARENT_FOOT_ID_DOCUMENT_RECYCLE = "4";
 
     /** 属性名： 核心数据根id - 备忘录 **/
     public static final String CORE_DATA_PARENT_FOOT_ID_MEMORANDUM = "2";

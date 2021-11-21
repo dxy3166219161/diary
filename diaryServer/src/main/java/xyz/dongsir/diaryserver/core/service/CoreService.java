@@ -27,11 +27,11 @@ public interface CoreService extends IService<DiaryCore> {
     /**
      * @description: 新增核心
      * @param: [diaryCore]
-     * @return: void
+     * @return: String
      * @author dongxingyu
      * @date: 2021/11/18 9:22
      */
-    void addCore(DiaryCore diaryCore);
+    String addCore(DiaryCore diaryCore);
 
     /**
      * @description: 修改核心数据
@@ -86,4 +86,27 @@ public interface CoreService extends IService<DiaryCore> {
      * @date: 2021/11/18 10:10
      */ 
     DiaryCoreTreeModel findCoreTree(String parentId);
+
+    /**
+     * 根绝标题、类型查询核心
+     * @param title
+     * @param type
+     * @return
+     */
+    List<DiaryCore> findCoreByUidAndTitleAndType(String uid,String title,String type);
+
+    /**
+     * 查询日记通过uid
+     * @param uid
+     * @return
+     */
+    DiaryCore findByUid(String uid);
+
+    /**
+     * 通过父节点和用户查询列表
+     * @param purposeId
+     * @param userAccount
+     * @return
+     */
+    List<DiaryCore> selectByParentIdAndUserAccount(String purposeId, String userAccount);
 }

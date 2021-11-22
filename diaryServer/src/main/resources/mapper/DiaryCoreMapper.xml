@@ -8,7 +8,7 @@
 <!--    <select id="selectByUid" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">-->
 <!--        select t.* from diary_core t where t.uid_ = #{uid}-->
 <!--    </select>-->
-    <select id="selectByParentIdAndUserAccount" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
+    <select id="findByParentIdAndUserAccount" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
         select t.* from diary_core t where t.parent_id = #{purposeId} and t.user_account = #{userAccount}
     </select>
     <select id="selectByUidAndUserAccount" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">

@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.dongsir.diaryserver.core.model.DiaryCoreTreeModel;
 import xyz.dongsir.diaryserver.diary.service.DiaryService;
+import xyz.dongsir.diaryserver.diary.vo.DiaryListViewVO;
 import xyz.dongsir.diaryserver.diary.vo.DiaryOptionVO;
 import xyz.dongsir.diaryserver.diary.vo.DiaryUpdateOptionVO;
 import xyz.dongsir.diaryserver.util.rest.ResultMsg;
+
+import java.util.List;
 
 /**
  * Description:
@@ -66,9 +69,9 @@ public class DiaryController {
         return diaryService.list();
     }
 
-//    @ApiOperation(value = "获取年列表")
-//    @PostMapping(value = "/list/year")
-//    public ResultMsg<DiaryCoreTreeModel> listYear() {
-//        return diaryService.listYear();
-//    }
+    @ApiOperation(value = "获取子节点列表")
+    @GetMapping(value = "/children/list")
+    public ResultMsg<List<DiaryListViewVO>> findChildrenList(@RequestParam("uid") String uid) {
+        return diaryService.findChildrenList(uid);
+    }
 }

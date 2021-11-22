@@ -133,7 +133,7 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
     public void clearRecycleBin(String purposeId) {
         // TODO 集成登录后补充用户账号
         String userAccount = "";
-        List<DiaryCore> diaryCoreList = diaryCoreMapper.selectByParentIdAndUserAccount(purposeId,userAccount);
+        List<DiaryCore> diaryCoreList = diaryCoreMapper.findByParentIdAndUserAccount(purposeId,userAccount);
         List<Long> idList = new ArrayList<>();
         diaryCoreList.forEach(diaryCore -> {
             idList.add(diaryCore.getId());
@@ -215,7 +215,7 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
     }
 
     @Override
-    public List<DiaryCore> selectByParentIdAndUserAccount(String parentId, String userAccount) {
-        return diaryCoreMapper.selectByParentIdAndUserAccount(parentId,userAccount);
+    public List<DiaryCore> findByParentIdAndUserAccount(String parentId, String userAccount) {
+        return diaryCoreMapper.findByParentIdAndUserAccount(parentId,userAccount);
     }
 }

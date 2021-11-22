@@ -1,4 +1,5 @@
 package xyz.dongsir.diaryserver.diary.service;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import xyz.dongsir.diaryserver.constants.DiaryConstant;
 import xyz.dongsir.diaryserver.core.bean.DiaryCore;
 import xyz.dongsir.diaryserver.core.model.DiaryCoreTreeModel;
 import xyz.dongsir.diaryserver.core.service.CoreService;
+import xyz.dongsir.diaryserver.diary.vo.DiaryListViewVO;
 import xyz.dongsir.diaryserver.diary.vo.DiaryOptionVO;
 import xyz.dongsir.diaryserver.diary.vo.DiaryUpdateOptionVO;
 import xyz.dongsir.diaryserver.util.DateUtils;
@@ -175,4 +177,28 @@ public class DiaryService {
     }
 
 
+    /** 
+     * @description: 查询子节点列表 
+     * @param: [uid] 
+     * @return: xyz.dongsir.diaryserver.util.rest.ResultMsg<java.util.List<xyz.dongsir.diaryserver.diary.vo.DiaryListViewVO>> 
+     * @author dongxingyu
+     * @date: 2021/11/22 9:52
+     */ 
+    public ResultMsg<List<DiaryListViewVO>> findChildrenList(String uid) {
+        // TODO 默认root，用户登录模块搭建后补充
+        String userAccount = "root";
+        List<DiaryCore> diaryCoreList = coreService.findByParentIdAndUserAccount(uid, userAccount);
+        List<DiaryListViewVO> diaryListViewVOList = new ArrayList<>();
+        diaryCoreList.forEach(diaryCore -> {
+            DiaryListViewVO diaryListViewVO = new DiaryListViewVO();
+            diaryListViewVO.setUid(diaryCore.getUid());
+            diaryListViewVO.setParentId(diaryCore.getParentId());
+            diaryListViewVO.setTitle(diaryCore.getTitle());
+            diaryListViewVO.setType(diaryCore.getType());
+            diaryListViewVO.setSummary(diaryCore.getSummary());
+            diaryListViewVO.setCreateDate(diaryCore.getCreateDate());
+            diaryListViewVOList.add(diaryListViewVO);
+        });
+        return ResponseMsg.setSuccessResult(diaryListViewVOList);
+    }
 }

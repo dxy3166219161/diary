@@ -108,5 +108,5 @@ public interface CoreService extends IService<DiaryCore> {
      * @param userAccount
      * @return
      */
-    List<DiaryCore> selectByParentIdAndUserAccount(String purposeId, String userAccount);
+    List<DiaryCore> findByParentIdAndUserAccount(String purposeId, String userAccount);
 }

@@ -49,7 +49,7 @@ public class Swagger2Configurer {
         Predicate<RequestHandler> basePackage = RequestHandlerSelectors.basePackage("xyz.dongsir.diaryserver");
         ApiSelectorBuilder globalOperationParameters = docket.groupName("api管理中心").select().apis(basePackage);
         docket.globalOperationParameters(pars);
-        ApiSelectorBuilder paths = globalOperationParameters.paths(PathSelectors.regex("^(?!/(knowledge|category|show)).*"));
+        ApiSelectorBuilder paths = globalOperationParameters.paths(PathSelectors.regex("^(?!/(constants|util)).*"));
         Docket build = paths.build();
         return build;
     }

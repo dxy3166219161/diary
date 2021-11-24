@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xyz.dongsir.diaryserver.core.bean.DiaryCore;
 import xyz.dongsir.diaryserver.core.model.DiaryCoreTreeModel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,4 +110,6 @@ public interface CoreService extends IService<DiaryCore> {
      * @return
      */
     List<DiaryCore> findByParentIdAndUserAccount(String purposeId, String userAccount);
+
+    List<DiaryCore> findByUserAccountAndTypeAndDate(String userAccount,String type, Date startDate, Date endDate);
 }

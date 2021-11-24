@@ -20,4 +20,7 @@
     <select id="findByUid" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
         select t.* from diary_core t where t.uid_ = #{uid}
     </select>
+    <select id="findByUserAccountAndTypeAndDate" resultType="xyz.dongsir.diaryserver.core.bean.DiaryCore">
+        select t.* from diary_core t where t.user_account = #{userAccount} and t.type_ = #{type} and str_to_date(t.summary_, '%Y-%m-%d %H') &gt;= #{startDate} and and str_to_date(t.summary_, '%Y-%m-%d %H') &lt;= #{endDate}
+    </select>
 </mapper>

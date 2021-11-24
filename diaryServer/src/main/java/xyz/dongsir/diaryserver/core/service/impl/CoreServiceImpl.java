@@ -218,4 +218,9 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
     public List<DiaryCore> findByParentIdAndUserAccount(String parentId, String userAccount) {
         return diaryCoreMapper.findByParentIdAndUserAccount(parentId,userAccount);
     }
+
+    @Override
+    public List<DiaryCore> findByUserAccountAndTypeAndDate(String userAccount,String type, Date startDate, Date endDate) {
+        return diaryCoreMapper.findByUserAccountAndTypeAndDate(userAccount,type,startDate,endDate);
+    }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.dongsir.diaryserver.core.bean.DiaryCore;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,4 +33,6 @@ public interface DiaryCoreMapper extends BaseMapper<DiaryCore> {
     List<DiaryCore> findByUidAndTitleAndTypeAndUserAccount(String uid,String title, String type, String userAccount);
 
     DiaryCore findByUid(String uid);
+
+    List<DiaryCore> findByUserAccountAndTypeAndDate(String userAccount, String type, Date startDate, Date endDate);
 }

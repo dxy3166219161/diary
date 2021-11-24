@@ -1,9 +1,3 @@
-/*
- * FileName: DocumentUpdateVO
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.document.vo;
 
 import java.io.Serializable;
@@ -28,6 +22,8 @@ public class DocumentUpdateVO implements Serializable {
 
     private String title;
 
+    private String detail;
+
     public Long getId() {
         return id;
     }
@@ -50,5 +46,13 @@ public class DocumentUpdateVO implements Serializable {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }

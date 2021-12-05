@@ -59,3 +59,8 @@ spring:
         # 登录用户名/密码
         login-username: root
         login-password: LIE886lie
+
+jwt:
+  config:
+    key: a2V5bmlkaWUxNTQ1NGRqc2Rqa3NqZA==
+    ttl: 100000

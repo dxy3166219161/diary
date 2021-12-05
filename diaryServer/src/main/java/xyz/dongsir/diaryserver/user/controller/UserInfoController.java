@@ -1,22 +1,23 @@
-/*
- * FileName: UserInfoController
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.user.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.dongsir.diaryserver.memorandum.vo.MemorandumOptionVO;
 import xyz.dongsir.diaryserver.user.service.UserInfoService;
+import xyz.dongsir.diaryserver.user.vo.LoginVO;
 import xyz.dongsir.diaryserver.user.vo.UaseInfoOptionVO;
+import xyz.dongsir.diaryserver.util.rest.ResponseMsg;
 import xyz.dongsir.diaryserver.util.rest.ResultMsg;
+
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Description:
@@ -42,5 +43,11 @@ public class UserInfoController {
     @PostMapping(value = "/register")
     public ResultMsg<String> registerUser(@RequestBody UaseInfoOptionVO uaseInfoOptionVO) {
         return userInfoService.registerUser(uaseInfoOptionVO);
+    }
+
+    @ApiOperation(value = "登录")
+    @PostMapping(value = "/login")
+    public ResultMsg<String> login(HttpServletRequest httpServletRequest) {
+        return userInfoService.login(httpServletRequest);
     }
 }

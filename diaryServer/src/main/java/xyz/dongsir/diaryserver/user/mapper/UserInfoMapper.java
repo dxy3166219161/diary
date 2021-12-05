@@ -1,9 +1,3 @@
-/*
- * FileName: UserInfoMapper
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -27,4 +21,5 @@ import xyz.dongsir.diaryserver.user.bean.UserInfo;
  */
 @Mapper
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
+    UserInfo findByUserAccountAndPassword(String userAccount, String password);
 }

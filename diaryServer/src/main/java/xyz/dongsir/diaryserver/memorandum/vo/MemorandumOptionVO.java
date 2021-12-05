@@ -1,9 +1,3 @@
-/*
- * FileName: MemorandumOptionVO
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.memorandum.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;

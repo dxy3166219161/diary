@@ -1,24 +1,30 @@
-/*
- * FileName: UserInfoServiceImpl
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.user.service.impl;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.dongsir.diaryserver.constants.UserConstant;
-import xyz.dongsir.diaryserver.core.bean.DiaryCore;
-import xyz.dongsir.diaryserver.core.mapper.DiaryCoreMapper;
 import xyz.dongsir.diaryserver.user.bean.UserInfo;
 import xyz.dongsir.diaryserver.user.mapper.UserInfoMapper;
 import xyz.dongsir.diaryserver.user.service.UserInfoService;
+import xyz.dongsir.diaryserver.user.vo.LoginVO;
 import xyz.dongsir.diaryserver.user.vo.UaseInfoOptionVO;
+import xyz.dongsir.diaryserver.util.JwtTokenUtil;
+import xyz.dongsir.diaryserver.util.RSAUtils;
+import xyz.dongsir.diaryserver.util.SHA256Util;
 import xyz.dongsir.diaryserver.util.UUIDUtil;
 import xyz.dongsir.diaryserver.util.rest.ResponseMsg;
 import xyz.dongsir.diaryserver.util.rest.ResultMsg;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Description:
@@ -35,6 +41,12 @@ import xyz.dongsir.diaryserver.util.rest.ResultMsg;
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
+    @Autowired
+    UserInfoMapper userInfoMapper;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @Override
     public ResultMsg<String> registerUser(UaseInfoOptionVO uaseInfoOptionVO) {
         UserInfo userInfo = new UserInfo();
@@ -47,10 +59,45 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userInfo.setPhone(userInfo.getPhone());
         userInfo.setEmail(userInfo.getEmail());
         String password = UUIDUtil.getUUID();
-        // TODO 后续追加加密处理
-        String encryptPassword = password;
+        // 加密处理
+        String encryptPassword = SHA256Util.getSHA256Str(password);
         userInfo.setPassword(encryptPassword);
         save(userInfo);
         return ResponseMsg.setSuccessResult("请记住密码：" + password);
     }
+
+    @Override
+    public ResultMsg<String> login(HttpServletRequest httpServletRequest) {
+        StringBuilder tmp =  new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            InputStream inputStream = httpServletRequest.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line =reader.readLine()) != null) {
+                tmp.append(line);
+            }
+            String userInfo = RSAUtils.decrypt(tmp.toString());
+            LoginVO loginVO = JSONObject.parseObject(userInfo, LoginVO.class);
+            loginVO.setPassword(SHA256Util.getSHA256Str(loginVO.getPassword()));
+            UserInfo user = userInfoMapper.findByUserAccountAndPassword(loginVO.getUserName(),loginVO.getPassword());
+            if(null == user){
+                return ResponseMsg.setErrorResult("登录失败，请重新登录");
+            }
+            Map<String,Object> map = new HashMap<>();
+            map.put("userUid",user.getUid());
+            map.put("userName",user.getUserName());
+            map.put("userAccount",user.getUserAccount());
+            map.put("phone",user.getPhone());
+            map.put("email",user.getEmail());
+            map.put("configuration",user.getConfiguration());
+            String jwtToken = jwtTokenUtil.createJwtToken(user.getUid(), user.getUserName(), map);
+            return ResponseMsg.setSuccessResult(jwtToken);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseMsg.setErrorResult("登录失败，请重新登录");
+    }
+
+
 }

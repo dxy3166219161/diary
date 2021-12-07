@@ -6,6 +6,8 @@
  */
 package xyz.dongsir.diaryserver.config;
 
+import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.dongsir.diaryserver.util.JwtTokenUtil;
@@ -13,6 +15,7 @@ import xyz.dongsir.diaryserver.util.JwtTokenUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Description: 路由拦截处理器
@@ -28,25 +31,36 @@ import java.io.IOException;
  * </p>
  */
 public class HoldUpProcessConfig implements HandlerInterceptor {
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
     /**
      * 在请求处理之前进行调用（Controller方法调用之前）
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-//        System.out.println("执行了TestInterceptor的preHandle方法");
-//        try {
-            //统一拦截（查询当前session是否存在user）(这里user会在每次登陆成功后，写入session)
-//            User user=(User)request.getSession().getAttribute("USER");
-//            if(user!=null){
-//                return true;
-//            }
-//            response.sendRedirect(request.getContextPath()+"你的登陆页地址");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         // 校验token
         String authorization = request.getHeader("Authorization");
-        return true;//如果设置为false时，被请求时，拦截器执行到此处将不会继续操作
+        // 尝试解析，解析失败则退出
+        try {
+            jwtTokenUtil.parseJWT(authorization);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if(jwtTokenUtil.overdueVerification(authorization)){
+            // token续期  方案：检测到前端快过期，向请求头中置入一个新token字段
+            Claims claims = jwtTokenUtil.parseJWT(authorization);
+            Date now = new Date();
+            long timeDifference = claims.getExpiration().getTime() - now.getTime();
+            if(timeDifference < 3*60*1000 && timeDifference > 0 ){
+                String refreshToken = jwtTokenUtil.refreshToken(authorization);
+                response.setHeader("Authorization-Refresh",refreshToken);
+            }
+            return true;
+        }
+        return false;//如果设置为false时，被请求时，拦截器执行到此处将不会继续操作
         //如果设置为true时，请求将会继续执行后面的操作
     }
 

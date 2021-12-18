@@ -1,9 +1,3 @@
-/*
- * FileName: WebHoldUpConfigurer
- *
- * Company: 北京神州泰岳软件股份有限公司
- * Copyright 2011-2020 (C) Ultrapower Software CO., LTD. All Rights Reserved.
- */
 package xyz.dongsir.diaryserver.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,19 +22,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebHoldUpConfigurer implements WebMvcConfigurer {
 
-    @Value("web.api.whitelist")
+    @Value("${web.url.whitelist}")
     private String whitelist;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
         InterceptorRegistration registration = registry.addInterceptor(new HoldUpProcessConfig());
-        registration.addPathPatterns("/**");                      //所有路径都被拦截
-        registration.excludePathPatterns(  whitelist                       //添加不拦截路径
+        String[] whiteList = whitelist.split(",");
+        for (String white : whiteList) {
+            registration.excludePathPatterns(white);
+        }
+//        registration.excludePathPatterns(whitelist                       //添加不拦截路径
 //                "你的登陆路径",            //登录
 //                "/**/*.html",            //html静态资源
 //                "/**/*.js",              //js静态资源
 //                "/**/*.css"             //css静态资源
-        );
+//        );
+        registration.addPathPatterns("/**");                      //所有路径都被拦截
     }
 }

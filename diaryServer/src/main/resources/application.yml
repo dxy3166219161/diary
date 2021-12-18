@@ -67,4 +67,4 @@ jwt:
 
 web:
   url:
-    whitelist: /login
+    whitelist: /api/test/web/interface/access,/login

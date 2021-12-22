@@ -1,6 +1,8 @@
 package xyz.dongsir.diaryserver.config;
 
+import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +11,7 @@ import xyz.dongsir.diaryserver.util.JwtTokenUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -36,10 +39,15 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
         // 校验token
         String authorization = request.getHeader("Authorization");
         // 尝试解析，解析失败则退出
+        if(StringUtils.isBlank(authorization)){
+            returnMsg(response,500,"请携带token",false);
+            return false;
+        }
         try {
             jwtTokenUtil.parseJWT(authorization);
         } catch (Exception e) {
             e.printStackTrace();
+            returnMsg(response,401,"token解析异常",false);
             return false;
         }
 
@@ -52,6 +60,7 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
                 String refreshToken = jwtTokenUtil.refreshToken(authorization);
                 response.setHeader("Authorization-Refresh",refreshToken);
             }
+            returnMsg(response,200,"",true);
             return true;
         }
         return false;//如果设置为false时，被请求时，拦截器执行到此处将不会继续操作
@@ -72,5 +81,21 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 //        System.out.println("执行了TestInterceptor的afterCompletion方法");
+    }
+
+    private void returnMsg(HttpServletResponse response,Integer code,String msg,boolean success){
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter out = null;
+        JSONObject res = new JSONObject();
+        res.put("data", success);
+        res.put("code", code);
+        res.put("msg", msg);
+        try {
+            out = response.getWriter();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        out.append(res.toString());
     }
 }

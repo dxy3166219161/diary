@@ -60,7 +60,7 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
                 String refreshToken = jwtTokenUtil.refreshToken(authorization);
                 response.setHeader("Authorization-Refresh",refreshToken);
             }
-            returnMsg(response,200,"",true);
+//            returnMsg(response,200,"",true);
             return true;
         }
         return false;//如果设置为false时，被请求时，拦截器执行到此处将不会继续操作

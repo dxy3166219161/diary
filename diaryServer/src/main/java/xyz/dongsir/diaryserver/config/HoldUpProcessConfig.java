@@ -3,6 +3,8 @@ package xyz.dongsir.diaryserver.config;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +30,7 @@ import java.util.Date;
  * </p>
  */
 public class HoldUpProcessConfig implements HandlerInterceptor {
+    private static Logger logger = LoggerFactory.getLogger(HoldUpProcessConfig.class);
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -36,10 +39,12 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+
         // 校验token
         String authorization = request.getHeader("Authorization");
         // 尝试解析，解析失败则退出
         if(StringUtils.isBlank(authorization)){
+            logger.info("拦截url--{}",request.getRequestURI());
             returnMsg(response,500,"请携带token",false);
             return false;
         }
@@ -47,6 +52,7 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
             jwtTokenUtil.parseJWT(authorization);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.info("token解析异常url--{}",request.getRequestURI());
             returnMsg(response,401,"token解析异常",false);
             return false;
         }

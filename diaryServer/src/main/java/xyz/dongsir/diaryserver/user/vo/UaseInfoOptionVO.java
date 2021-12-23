@@ -32,16 +32,13 @@ public class UaseInfoOptionVO implements Serializable {
     @ApiModelProperty("用户名")
     private String userName;
 
-    /** 属性名：手机号 **/
-    @TableField("phone_")
+    @ApiModelProperty("手机号")
     private String phone;
 
-    /** 属性名：邮箱 **/
-    @TableField("email_")
+    @ApiModelProperty("邮箱")
     private String email;
 
-    /** 属性名：个人配置：存储Json **/
-    @TableField("configuration_")
+    @ApiModelProperty("个人配置：存储Json")
     private String configuration;
 
     public String getUserAccount() {

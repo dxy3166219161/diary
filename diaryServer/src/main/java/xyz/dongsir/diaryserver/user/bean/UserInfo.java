@@ -20,7 +20,7 @@ import java.util.Date;
  * 2021/11/25 9:42     dongxingyu        2.0.0       To create
  * </p>
  */
-@TableName("user_info")
+@TableName("diary_user_info")
 public class UserInfo {
     /** 属性名：主键 **/
     @TableId(value = "id_", type = IdType.AUTO)

@@ -56,8 +56,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userInfo.setCreateDate(new Date());
         userInfo.setStatus(UserConstant.USER_STATUS_Y);
         userInfo.setType(UserConstant.USER_TYPE_USER);
-        userInfo.setPhone(userInfo.getPhone());
-        userInfo.setEmail(userInfo.getEmail());
+        userInfo.setPhone(uaseInfoOptionVO.getPhone());
+        userInfo.setEmail(uaseInfoOptionVO.getEmail());
         String password = UUIDUtil.getUUID();
         // 加密处理
         String encryptPassword = SHA256Util.getSHA256Str(password);

@@ -14,7 +14,7 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://23.234.197.213:9605/diary?serverTimezone=UTC
+    url: jdbc:mysql://dongsir.xyz:9605/diary?serverTimezone=UTC
     username: root
     password: LIE886lie
     # 连接池类型
@@ -67,4 +67,5 @@ jwt:
 
 web:
   url:
-    whitelist: /api/test/web/interface/access,/login
+    #whitelist: /api/test/web/interface/access,/login
+    whitelist: /user/register,/user/login,/webjars/*/*/*.map,/webjars/*/*/*.js,/webjars/*/*/*.css,/webjars/*/*/*.ico,/webjars/*/*/*/*.map,/webjars/*/*/*/*.js,/webjars/*/*/*/*.css,/webjars/*/*/*/*/*.js,/webjars/*/*/*/*/*.css,/v2/api-docs,/doc.html,/error,/swagger-resources/*/*,/swagger-resources,/webjars/*/*/*/*/*/*/*.css

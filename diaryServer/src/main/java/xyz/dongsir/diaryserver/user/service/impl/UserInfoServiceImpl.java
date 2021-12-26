@@ -47,6 +47,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    RSAUtils rsaUtils;
+
     @Override
     public ResultMsg<String> registerUser(UaseInfoOptionVO uaseInfoOptionVO) {
         UserInfo userInfo = new UserInfo();
@@ -77,7 +80,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             while ((line =reader.readLine()) != null) {
                 tmp.append(line);
             }
-            String userInfo = RSAUtils.decrypt(tmp.toString());
+            String userInfo = rsaUtils.decryptPrivateKey(tmp.toString());
             LoginVO loginVO = JSONObject.parseObject(userInfo, LoginVO.class);
             loginVO.setPassword(SHA256Util.getSHA256Str(loginVO.getPassword()));
             UserInfo user = userInfoMapper.findByUserAccountAndPassword(loginVO.getUserName(),loginVO.getPassword());

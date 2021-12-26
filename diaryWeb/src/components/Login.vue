@@ -3,7 +3,7 @@
     <div class="login_info">
       <el-form ref="form" :model="form"  label-width="8vw" class="login_info_form">
         <el-form-item label="账号" >
-            <el-input v-model="form.userAccount"></el-input>
+            <el-input v-model="form.userName"></el-input>
         </el-form-item>
         <el-form-item label="密码">
            <el-input v-model="form.password" type="password"></el-input>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-// import { login } from '../api/user'
+import { login } from '../api/user'
 // import JSEncrypt from '../assets/js/jsencrypt.min.js'
 import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 export default {
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       form: {
-        userAccount: "",
+        userName: "",
         password: ""
       }
     }
@@ -40,12 +40,9 @@ export default {
           "gPqsCwIDAQAB"
       const encrypt = new JSEncrypt()
       encrypt.setPublicKey(PUBLIC_KEY)
-      // JSON.stringify(this.form).
-      let result = encrypt.encrypt("{'username':'dongxingyu','password':'LIE886lie'}")
-
-      // result.assign
-      console.log(result)
-      // login(this.form)
+      var userinfo = JSON.stringify(this.form)
+      let result = encrypt.encrypt(userinfo)
+      login(result)
     }
   }
 

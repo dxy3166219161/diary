@@ -3,6 +3,6 @@
 <mapper namespace="xyz.dongsir.diaryserver.user.mapper.UserInfoMapper">
 
     <select id="findByUserAccountAndPassword" resultType="xyz.dongsir.diaryserver.user.bean.UserInfo">
-        select * from user_info where user_account = #{userAccount} and password_ = #{password}
+        select * from diary_user_info where user_account = #{userAccount} and password_ = #{password}
     </select>
 </mapper>

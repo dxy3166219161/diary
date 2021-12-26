@@ -8,7 +8,8 @@ server:
 
 #mybatis
 mybatis-plus:
-  mapper-locations: classpath:mapping/*/*.xml
+#  mapper-locations: classpath:mapping/*/*.xml
+  mapper-locations: classpath:mapper/*.xml
 
 spring:
   # 数据源配置
@@ -69,3 +70,7 @@ web:
   url:
     #whitelist: /api/test/web/interface/access,/login
     whitelist: /user/register,/user/login,/webjars/*/*/*.map,/webjars/*/*/*.js,/webjars/*/*/*.css,/webjars/*/*/*.ico,/webjars/*/*/*/*.map,/webjars/*/*/*/*.js,/webjars/*/*/*/*.css,/webjars/*/*/*/*/*.js,/webjars/*/*/*/*/*.css,/v2/api-docs,/doc.html,/error,/swagger-resources/*/*,/swagger-resources,/webjars/*/*/*/*/*/*/*.css
+  param:
+    encrypt:
+      privatekey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCGJsrOtdj2MAccIJLuJnL+3aGxN9SsR8L6xw9+UFe3ddkdsouCtjh9+wkJWAg09hUrfLmFPMz+taIs6LDgjAbJFFjh1p9By4wWlyM+DXwawGExEujacFEBI0ZhfVAzlZVGFGUyImUFo/8lO2pCGHE3722uybkYW6eebQ4UV4GUD5+J30Bq/XdvZkCJVN5xzAIvq6XvK0Nzgtf7gNh+7aisWf4aO3divThqaHZEZbRtv6JDsvvL/sOh8AGeA2mjT9Y+pXCltQ1x/VRiEOIoips37hKsbeSTAE+xV3yqcuOlKOLdyGigcjXjJtNcL/XnflanobMp0/c87IV/erOA+qwLAgMBAAECggEAcZiRrX5w7O74ZknzATSPtd9o1s8HCKdvpLlBFl3kGRbyteIFnra8mXkkSsQ/ltE2Ve+0jO1STPDzFgIoHMyVxlmzdfEuRCGfS1XJ4va6O1DiPBLeGHJ5NXRwWYcqjbPBhmko084qKx+Woylvre5SmOHmx9ZLJSQfiNihznnW4M8o5kA/YFQq3Sgg7M92TChOiBVh7o5KjyGlWQQtT9LjZSzWJ8j5C/Bsp3fHBDOIgGGjwR77d7jlBL8dPLc9b3co0VE+q/4Ad+8kUaeLENMbMdJshcuO4eU6pUb84zItu+zKwbef3N3mgP2FLGzIpu65bRfeKVF0sjfHq1KTvqnEyQKBgQDVuUjS7Xp3JQI/V85mrDUIVOT5DGd9SWQJygFpFTkDXxzwcZW7BpIe9ATd1Kk8ebnVaZ2PS+G1V5gfO66WPjB7E6s511009IKg+4FiTkgMK0nZ9eWYs9v0QeGuzDG5Ym17CcCtyEIk81i+Y4Xd0FF6X3zGP6b7T85zVYrCHmPm5QKBgQCgsBCpK8VeLZUStG1ozed9FY9vKxrvzL4SmM3cGuZ+OqRuBtS9G5VzOSdaCBHX3087/9HI7tyFUBOhSSyfXbO1tc+REpqHi69CrXfRQvhnfjTvbMGBB7QwW0oB3+auTIS6lDnDw4lMgogPXLZEfNSvdmSigqbjTaup7DkZwdmoLwKBgA4e4crd2duJXG6m9IIgGpjkUwSJZ0UF1lA3QoSY3F12qUjRmFz1AC5/XNrzNANE35xUEA7pqo36rZhSryRKE5XuJL/7lLLs/Lx6IYBHP8deDNETyAmgyIWI3MpZv2dKM4WPjWVt98DNOy3JEY0oOFnneSz4A6ZTDYbdPf+5VkxpAoGAExSVBeGCsCotd2khTL6WbE3xGDxAGJVxRHgMicRP9lE0UTRScpoh5uq0d4ZZyA5mNDOuT3O9j77wdchgmhPgUQVjvlA9NTcq+nnqrliLco6T7pI1cALgLJXKdeqGU9AWOql7Knm/hexCB8D0i7Fe9+7RCFMHShpg9e5s4VgZZlUCgYEAyZNSlsp7lQ/L6hc6FMki0nFTCRjr7iW9E/ZzFgayOIx7Lq2W+Whk4mHM4XMtG7hLGIuvgbMS1yars+EnNksPDuQm8V7pdbr4B1ZjyYb3eUdxuy+yGqxjZgdo343tWJjwszomXUWoH9Two9evjaIzCWpWu1zoiHx+sydD4itzgcE=
+      publickey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhibKzrXY9jAHHCCS7iZy/t2hsTfUrEfC+scPflBXt3XZHbKLgrY4ffsJCVgINPYVK3y5hTzM/rWiLOiw4IwGyRRY4dafQcuMFpcjPg18GsBhMRLo2nBRASNGYX1QM5WVRhRlMiJlBaP/JTtqQhhxN+9trsm5GFunnm0OFFeBlA+fid9Aav13b2ZAiVTeccwCL6ul7ytDc4LX+4DYfu2orFn+Gjt3Yr04amh2RGW0bb+iQ7L7y/7DofABngNpo0/WPqVwpbUNcf1UYhDiKIqbN+4SrG3kkwBPsVd8qnLjpSji3chooHI14ybTXC/1535Wp6GzKdP3POyFf3qzgPqsCwIDAQAB

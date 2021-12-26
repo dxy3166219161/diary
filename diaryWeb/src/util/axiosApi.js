@@ -39,6 +39,13 @@ axiosApi.interceptors.response.use(
             sessionStorage.setItem("authorization",authorization)
         }
 
+        var authorizationRefresh = response.headers.Authorization-Refresh;
+        if(authorizationRefresh != null && authorizationRefresh != ""){
+            sessionStorage.setItem("authorization",authorizationRefresh)
+        }
+
+
+
         let res = response.data
         res.msg = '<script type="text/html" style="display:block;">' + res.msg + '</script>'
         // // debugger

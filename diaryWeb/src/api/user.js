@@ -7,7 +7,7 @@ import axiosApi from "../util/axiosApi";
  */
 export function login(param){
   return axiosApi({
-    url:'/api/test/web/interface/access',
+    url:'/user/login',
     method:'post',
     data:param
   })

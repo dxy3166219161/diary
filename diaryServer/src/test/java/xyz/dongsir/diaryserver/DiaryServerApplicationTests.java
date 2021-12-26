@@ -30,7 +30,7 @@ class DiaryServerApplicationTests {
     void analysisToken() {
         JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
         jwtTokenUtil.laji();
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiZG9uZ3hpbmd5dSIsImlhdCI6MTYzODg0MDQ3MiwicXdlIjoicXdlIiwiZXhwIjoxNjM5ODQwNDcyfQ.9st1MegJTMqBeAqYsCgm4rMW0a6u-Mcr8O2TySF7leA";
+        String token = "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiZG9uZ3hpbmd5dSIsImlhdCI6MTY0MDM5ODY2MywicXdlIjoicXdlIiwiZXhwIjoxNjQxMzk4NjYzfQ.V8Y-DSQWD2yr2aPeTreQ4HUT0ZaRqI2-iVnZ-5E57peQuF78-2T_B4KGbAnzliyAfGNJu3wPlfUVzOqD_mRtaavqB2ewvShqfhyQZm9SenOQb23n7AxvIS8SBu3d41yjApg-XgxBBhSjVN-d4EdmTMUi3mdHcCBFANdWfivbQMvprm0Vj2c1XZVuW1d4mixgXR1dO5NnDEgHxlMdXi4XB5ZBescmjARjAR1NptusG3xTpZl5yBkYMVWVYm1BqEwRfe6LuudL2ss8at0DG6KuMI7uGUFjQX-VN4N4xqSB4GnIHIXWxU-P60c6OxWA6WsnsYzfYxtXiCFystwThx0IGA\n";
         Claims claims = jwtTokenUtil.parseJWT(token);
         System.out.println(JSONObject.toJSONString(claims));
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

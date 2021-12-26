@@ -1,11 +1,15 @@
 package xyz.dongsir.diaryserver.util;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -41,18 +45,58 @@ public class RSAUtils {
     public static final String PLAIN_TEXT = "Use a diary to record all the good things in your heart";
 
     public static void main(String[] args) {
-        Map<String, byte[]> keyMap = generateKeyBytes();
+        String publickeyStr = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhibKzrXY9jAHHCCS7iZy/t2hsTfUrEfC\n" +
+                "+scPflBXt3XZHbKLgrY4ffsJCVgINPYVK3y5hTzM/rWiLOiw4IwGyRRY4dafQcuMFpcjPg18GsBh\n" +
+                "MRLo2nBRASNGYX1QM5WVRhRlMiJlBaP/JTtqQhhxN+9trsm5GFunnm0OFFeBlA+fid9Aav13b2ZA\n" +
+                "iVTeccwCL6ul7ytDc4LX+4DYfu2orFn+Gjt3Yr04amh2RGW0bb+iQ7L7y/7DofABngNpo0/WPqVw\n" +
+                "pbUNcf1UYhDiKIqbN+4SrG3kkwBPsVd8qnLjpSji3chooHI14ybTXC/1535Wp6GzKdP3POyFf3qz\n" +
+                "gPqsCwIDAQAB";
+        System.out.println("publickeyStr:" + publickeyStr);
 
-        // 加密
-        PublicKey publicKey = restorePublicKey(keyMap.get(PUBLIC_KEY));
-        String text = "{'username':'dongxingyu','password':'LIE886lie'}";
-        byte[] encodedText = RSAEncode(publicKey, text.getBytes());
-        System.out.println("RSA encoded: " + Base64.encodeBase64String(encodedText));
+        String privatekeyStr = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCGJsrOtdj2MAccIJLuJnL+3aGx\n" +
+                "N9SsR8L6xw9+UFe3ddkdsouCtjh9+wkJWAg09hUrfLmFPMz+taIs6LDgjAbJFFjh1p9By4wWlyM+\n" +
+                "DXwawGExEujacFEBI0ZhfVAzlZVGFGUyImUFo/8lO2pCGHE3722uybkYW6eebQ4UV4GUD5+J30Bq\n" +
+                "/XdvZkCJVN5xzAIvq6XvK0Nzgtf7gNh+7aisWf4aO3divThqaHZEZbRtv6JDsvvL/sOh8AGeA2mj\n" +
+                "T9Y+pXCltQ1x/VRiEOIoips37hKsbeSTAE+xV3yqcuOlKOLdyGigcjXjJtNcL/XnflanobMp0/c8\n" +
+                "7IV/erOA+qwLAgMBAAECggEAcZiRrX5w7O74ZknzATSPtd9o1s8HCKdvpLlBFl3kGRbyteIFnra8\n" +
+                "mXkkSsQ/ltE2Ve+0jO1STPDzFgIoHMyVxlmzdfEuRCGfS1XJ4va6O1DiPBLeGHJ5NXRwWYcqjbPB\n" +
+                "hmko084qKx+Woylvre5SmOHmx9ZLJSQfiNihznnW4M8o5kA/YFQq3Sgg7M92TChOiBVh7o5KjyGl\n" +
+                "WQQtT9LjZSzWJ8j5C/Bsp3fHBDOIgGGjwR77d7jlBL8dPLc9b3co0VE+q/4Ad+8kUaeLENMbMdJs\n" +
+                "hcuO4eU6pUb84zItu+zKwbef3N3mgP2FLGzIpu65bRfeKVF0sjfHq1KTvqnEyQKBgQDVuUjS7Xp3\n" +
+                "JQI/V85mrDUIVOT5DGd9SWQJygFpFTkDXxzwcZW7BpIe9ATd1Kk8ebnVaZ2PS+G1V5gfO66WPjB7\n" +
+                "E6s511009IKg+4FiTkgMK0nZ9eWYs9v0QeGuzDG5Ym17CcCtyEIk81i+Y4Xd0FF6X3zGP6b7T85z\n" +
+                "VYrCHmPm5QKBgQCgsBCpK8VeLZUStG1ozed9FY9vKxrvzL4SmM3cGuZ+OqRuBtS9G5VzOSdaCBHX\n" +
+                "3087/9HI7tyFUBOhSSyfXbO1tc+REpqHi69CrXfRQvhnfjTvbMGBB7QwW0oB3+auTIS6lDnDw4lM\n" +
+                "gogPXLZEfNSvdmSigqbjTaup7DkZwdmoLwKBgA4e4crd2duJXG6m9IIgGpjkUwSJZ0UF1lA3QoSY\n" +
+                "3F12qUjRmFz1AC5/XNrzNANE35xUEA7pqo36rZhSryRKE5XuJL/7lLLs/Lx6IYBHP8deDNETyAmg\n" +
+                "yIWI3MpZv2dKM4WPjWVt98DNOy3JEY0oOFnneSz4A6ZTDYbdPf+5VkxpAoGAExSVBeGCsCotd2kh\n" +
+                "TL6WbE3xGDxAGJVxRHgMicRP9lE0UTRScpoh5uq0d4ZZyA5mNDOuT3O9j77wdchgmhPgUQVjvlA9\n" +
+                "NTcq+nnqrliLco6T7pI1cALgLJXKdeqGU9AWOql7Knm/hexCB8D0i7Fe9+7RCFMHShpg9e5s4VgZ\n" +
+                "ZlUCgYEAyZNSlsp7lQ/L6hc6FMki0nFTCRjr7iW9E/ZzFgayOIx7Lq2W+Whk4mHM4XMtG7hLGIuv\n" +
+                "gbMS1yars+EnNksPDuQm8V7pdbr4B1ZjyYb3eUdxuy+yGqxjZgdo343tWJjwszomXUWoH9Two9ev\n" +
+                "jaIzCWpWu1zoiHx+sydD4itzgcE=";
+        System.out.println("privatekeyStr:" + privatekeyStr);
+        try {
+            byte[] privateBytes = (new BASE64Decoder()).decodeBuffer(privatekeyStr);
+            byte[] publicBytes = (new BASE64Decoder()).decodeBuffer(publickeyStr);
+            PrivateKey privateKey = restorePrivateKey(privateBytes);
+            PublicKey publicKey = restorePublicKey(publicBytes);
+            String text = "{'username':'dongxingyu','password':'LIE886lie'}";
+            byte[] encodedText = RSAEncode(publicKey, text.getBytes());
+            String s = "bbwyVYOaOBFY2tCQs6FIQumeBD53BvOsUlp+3WACRFww1s9otq2fGTKcdiJwJUD5EHPXWIZSFO3rY88euMtkddUvwM0rXOvo8onIqImyAD1vTlMSUngNdtQeeBDIe6a+b6WgBqP2b547fgIflR97SvIkuiea2COnc8gD8LaMiXu8IK39N+NJFBanHHyv04SoNRDsl+ACQAI15bdzGd///1BvOx9TKwQ/GhjWoB55SIERp7iImZc7ITKNghaDk9T+xTr0U8V0Fm5u+8zp+epcxltuTZOQIjxcbZKAwnDS/LZhtuED0UAHAUtmJZr/sNJ6vHrh4IUWo7b4JjA9ljFLtg==";
 
-        // 解密
-        PrivateKey privateKey = restorePrivateKey(keyMap.get(PRIVATE_KEY));
-        System.out.println("RSA decoded: "
-                + RSADecode(privateKey, encodedText));
+//            String s = Base64.encodeBase64String(encodedText);
+            System.out.println("RSA encoded: " + s);
+
+            byte[] bytes = Base64.decodeBase64(s);
+//            String tag = "bbwyVYOaOBFY2tCQs6FIQumeBD53BvOsUlp+3WACRFww1s9otq2fGTKcdiJwJUD5EHPXWIZSFO3rY88euMtkddUvwM0rXOvo8onIqImyAD1vTlMSUngNdtQeeBDIe6a+b6WgBqP2b547fgIflR97SvIkuiea2COnc8gD8LaMiXu8IK39N+NJFBanHHyv04SoNRDsl+ACQAI15bdzGd///1BvOx9TKwQ/GhjWoB55SIERp7iImZc7ITKNghaDk9T+xTr0U8V0Fm5u+8zp+epcxltuTZOQIjxcbZKAwnDS/LZhtuED0UAHAUtmJZr/sNJ6vHrh4IUWo7b4JjA9ljFLtg==";
+//            byte[] bytes = tag.getBytes();
+
+            System.out.println("RSA decoded: "
+                    + RSADecode(privateKey, bytes));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -69,6 +113,13 @@ public class RSAUtils {
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+
+
+            String s = (new BASE64Encoder()).encodeBuffer(publicKey.getEncoded());
+            String s1 = (new BASE64Encoder()).encodeBuffer(privateKey.getEncoded());
+            System.out.println(s);
+            System.out.println(s1);
 
             Map<String, byte[]> keyMap = new HashMap<String, byte[]>();
             keyMap.put(PUBLIC_KEY, publicKey.getEncoded());

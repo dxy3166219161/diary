@@ -17,7 +17,9 @@
 </template>
 
 <script>
-import { login } from '../api/user'
+// import { login } from '../api/user'
+// import JSEncrypt from '../assets/js/jsencrypt.min.js'
+import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 export default {
   name: "Login",
   data() {
@@ -30,7 +32,20 @@ export default {
   },
   methods:{
     login(){
-      login(this.form)
+      const PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhibKzrXY9jAHHCCS7iZy/t2hsTfUrEfC\n" +
+          "+scPflBXt3XZHbKLgrY4ffsJCVgINPYVK3y5hTzM/rWiLOiw4IwGyRRY4dafQcuMFpcjPg18GsBh\n" +
+          "MRLo2nBRASNGYX1QM5WVRhRlMiJlBaP/JTtqQhhxN+9trsm5GFunnm0OFFeBlA+fid9Aav13b2ZA\n" +
+          "iVTeccwCL6ul7ytDc4LX+4DYfu2orFn+Gjt3Yr04amh2RGW0bb+iQ7L7y/7DofABngNpo0/WPqVw\n" +
+          "pbUNcf1UYhDiKIqbN+4SrG3kkwBPsVd8qnLjpSji3chooHI14ybTXC/1535Wp6GzKdP3POyFf3qz\n" +
+          "gPqsCwIDAQAB"
+      const encrypt = new JSEncrypt()
+      encrypt.setPublicKey(PUBLIC_KEY)
+      // JSON.stringify(this.form).
+      let result = encrypt.encrypt("{'username':'dongxingyu','password':'LIE886lie'}")
+
+      // result.assign
+      console.log(result)
+      // login(this.form)
     }
   }
 

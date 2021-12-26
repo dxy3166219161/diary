@@ -25,6 +25,7 @@ import xyz.dongsir.diaryserver.util.rest.ResponseMsg;
 import xyz.dongsir.diaryserver.util.rest.ResultMsg;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Description:
@@ -70,7 +71,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    public ResultMsg<String> login(HttpServletRequest httpServletRequest) {
+    public ResultMsg<String> login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         StringBuilder tmp =  new StringBuilder();
         BufferedReader reader = null;
         try {
@@ -95,7 +96,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             map.put("email",user.getEmail());
             map.put("configuration",user.getConfiguration());
             String jwtToken = jwtTokenUtil.createJwtToken(user.getUid(), user.getUserName(), map);
-            return ResponseMsg.setSuccessResult(jwtToken);
+            httpServletResponse.setHeader("Authorization",jwtToken);
+            return ResponseMsg.setSuccessResult();
         } catch (IOException e) {
             e.printStackTrace();
         }

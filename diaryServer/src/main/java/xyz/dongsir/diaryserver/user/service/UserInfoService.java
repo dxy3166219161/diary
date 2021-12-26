@@ -7,6 +7,7 @@ import xyz.dongsir.diaryserver.user.vo.UaseInfoOptionVO;
 import xyz.dongsir.diaryserver.util.rest.ResultMsg;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -27,5 +28,5 @@ import javax.servlet.http.HttpServletRequest;
 public interface UserInfoService extends IService<UserInfo> {
     ResultMsg<String> registerUser(UaseInfoOptionVO uaseInfoOptionVO);
 
-    ResultMsg<String> login(HttpServletRequest httpServletRequest);
+    ResultMsg<String> login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
 }

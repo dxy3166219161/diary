@@ -14,6 +14,7 @@ import xyz.dongsir.diaryserver.util.rest.ResultMsg;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +48,7 @@ public class UserInfoController {
 
     @ApiOperation(value = "登录")
     @PostMapping(value = "/login")
-    public ResultMsg<String> login(HttpServletRequest httpServletRequest) {
-        return userInfoService.login(httpServletRequest);
+    public ResultMsg<String> login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        return userInfoService.login(httpServletRequest,httpServletResponse);
     }
 }

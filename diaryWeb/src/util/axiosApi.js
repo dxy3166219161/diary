@@ -15,7 +15,7 @@ axiosApi.interceptors.request.use(
         // /* if (store.getters.token) {
         //
         // } */
-        // config.headers['Authorization'] = sessionStorage.getItem("msaAuthorization"); //getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        config.headers['Authorization'] = sessionStorage.getItem("authorization"); //getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
 
         return config
     },
@@ -34,6 +34,11 @@ axiosApi.interceptors.request.use(
 // 收到请求结果拦截
 axiosApi.interceptors.response.use(
     response => {
+        var authorization = response.headers.authorization;
+        if(authorization != null && authorization != ""){
+            sessionStorage.setItem("authorization",authorization)
+        }
+
         let res = response.data
         res.msg = '<script type="text/html" style="display:block;">' + res.msg + '</script>'
         // // debugger

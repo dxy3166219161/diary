@@ -40,9 +40,15 @@ export default {
           "gPqsCwIDAQAB"
       const encrypt = new JSEncrypt()
       encrypt.setPublicKey(PUBLIC_KEY)
+      encrypt.set
       var userinfo = JSON.stringify(this.form)
       let result = encrypt.encrypt(userinfo)
-      login(result)
+      login(result).then((result) => {
+        if (result.code == 200) {
+          // todo 跳转到首页
+          this.$router.push('/operation')
+        }
+      }).catch((err) => {console.log(err)});
     }
   }
 

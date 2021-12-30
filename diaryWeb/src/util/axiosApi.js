@@ -39,7 +39,7 @@ axiosApi.interceptors.response.use(
             sessionStorage.setItem("authorization",authorization)
         }
 
-        var authorizationRefresh = response.headers.Authorization-Refresh;
+        var authorizationRefresh = response.headers.AuthorizationRefresh;
         if(authorizationRefresh != null && authorizationRefresh != ""){
             sessionStorage.setItem("authorization",authorizationRefresh)
         }

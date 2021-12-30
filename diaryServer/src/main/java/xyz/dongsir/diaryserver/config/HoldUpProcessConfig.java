@@ -64,7 +64,7 @@ public class HoldUpProcessConfig implements HandlerInterceptor {
             long timeDifference = claims.getExpiration().getTime() - now.getTime();
             if(timeDifference < 3*60*1000 && timeDifference > 0 ){
                 String refreshToken = jwtTokenUtil.refreshToken(authorization);
-                response.setHeader("Authorization-Refresh",refreshToken);
+                response.setHeader("AuthorizationRefresh",refreshToken);
             }
 //            returnMsg(response,200,"",true);
             return true;

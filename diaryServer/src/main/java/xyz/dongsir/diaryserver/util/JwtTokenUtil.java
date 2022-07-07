@@ -1,15 +1,15 @@
 package xyz.dongsir.diaryserver.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import xyz.dongsir.diaryserver.user.bean.UserInfo;
@@ -37,7 +37,6 @@ import java.util.Map;
 @Data
 public class JwtTokenUtil {
     private String key ;
-
     private long ttl ;
 
     @Autowired
@@ -108,7 +107,8 @@ public class JwtTokenUtil {
         String authorization = request.getHeader("Authorization");
         Claims claims = parseJWT(authorization);
         String subject = claims.getSubject();
-        UserInfo userInfo = userInfoService.getById(subject);
+        String userUid = claims.get("userUid").toString();
+        UserInfo userInfo = userInfoService.getByUid(userUid);
         return userInfo;
     }
 
@@ -133,8 +133,8 @@ public class JwtTokenUtil {
         return token;
     }
 
-    public void laji(){
-        this.ttl = 1000000000;
-        this.key = "a2V5bmlkaWUxNTQ1NGRqc2Rqa3NqZA==";
-    }
+//    public void laji(){
+//        this.ttl = 1000000000;
+//        this.key = "a2V5bmlkaWUxNTQ1NGRqc2Rqa3NqZA==";
+//    }
 }

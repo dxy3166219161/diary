@@ -5,4 +5,7 @@
     <select id="findByUserAccountAndPassword" resultType="xyz.dongsir.diaryserver.user.bean.UserInfo">
         select * from diary_user_info where user_account = #{userAccount} and password_ = #{password}
     </select>
+    <select id="selectByUid" resultType="xyz.dongsir.diaryserver.user.bean.UserInfo">
+        select * from diary_user_info where uid_ = #{userUid}
+    </select>
 </mapper>

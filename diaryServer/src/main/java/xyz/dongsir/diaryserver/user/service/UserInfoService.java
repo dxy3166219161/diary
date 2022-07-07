@@ -29,4 +29,6 @@ public interface UserInfoService extends IService<UserInfo> {
     ResultMsg<String> registerUser(UaseInfoOptionVO uaseInfoOptionVO);
 
     ResultMsg<String> login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse);
+
+    UserInfo getByUid(String userUid);
 }

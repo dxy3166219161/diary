@@ -9,6 +9,8 @@ import xyz.dongsir.diaryserver.core.bean.DiaryCore;
 import xyz.dongsir.diaryserver.core.mapper.DiaryCoreMapper;
 import xyz.dongsir.diaryserver.core.model.DiaryCoreTreeModel;
 import xyz.dongsir.diaryserver.core.service.CoreService;
+import xyz.dongsir.diaryserver.user.bean.UserInfo;
+import xyz.dongsir.diaryserver.util.JwtTokenUtil;
 import xyz.dongsir.diaryserver.util.UUIDUtil;
 
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ import java.util.List;
 public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> implements CoreService {
     @Autowired
     DiaryCoreMapper diaryCoreMapper;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     /**
      * @description: 创建核心文档
@@ -151,15 +156,16 @@ public class CoreServiceImpl extends ServiceImpl<DiaryCoreMapper, DiaryCore> imp
     @Override
     public DiaryCoreTreeModel findCoreTree(String parentId) {
         // TODO 集成登录后补充用户账号,默认root
-        String userAccount = "root";
+        UserInfo currentUser = jwtTokenUtil.getCurrentUser();
+        String userAccount = currentUser.getUserAccount();
         DiaryCore diaryCore = diaryCoreMapper.selectByUidAndUserAccount(parentId,userAccount);
         DiaryCoreTreeModel diaryCoreTreeModel = new DiaryCoreTreeModel();
-        diaryCoreTreeModel.setId(diaryCore.getId());
-        diaryCoreTreeModel.setUid(diaryCore.getUid());
-        diaryCoreTreeModel.setParentId(diaryCore.getParentId());
-        diaryCoreTreeModel.setTitle(diaryCore.getTitle());
-        diaryCoreTreeModel.setType(diaryCore.getType());
         if(null != diaryCore){
+            diaryCoreTreeModel.setId(diaryCore.getId());
+            diaryCoreTreeModel.setUid(diaryCore.getUid());
+            diaryCoreTreeModel.setParentId(diaryCore.getParentId());
+            diaryCoreTreeModel.setTitle(diaryCore.getTitle());
+            diaryCoreTreeModel.setType(diaryCore.getType());
             List<DiaryCoreTreeModel> diaryCoreTreeModelList = recursionCoreTree(parentId);
             diaryCoreTreeModel.setChildren(diaryCoreTreeModelList);
         }

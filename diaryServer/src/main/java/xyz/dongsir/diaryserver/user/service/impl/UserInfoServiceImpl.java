@@ -104,5 +104,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         return ResponseMsg.setErrorResult("登录失败，请重新登录");
     }
 
+    @Override
+    public UserInfo getByUid(String userUid) {
+        return userInfoMapper.selectByUid(userUid);
+    }
+
 
 }

@@ -35,6 +35,7 @@ axiosApi.interceptors.request.use(
 axiosApi.interceptors.response.use(
     response => {
         var authorization = response.headers.authorization;
+		console.log(authorization);
         if(authorization != null && authorization != ""){
             sessionStorage.setItem("authorization",authorization)
         }

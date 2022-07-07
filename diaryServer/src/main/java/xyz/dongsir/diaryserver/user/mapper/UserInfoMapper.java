@@ -22,4 +22,6 @@ import xyz.dongsir.diaryserver.user.bean.UserInfo;
 @Mapper
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
     UserInfo findByUserAccountAndPassword(String userAccount, String password);
+
+    UserInfo selectByUid(String userUid);
 }

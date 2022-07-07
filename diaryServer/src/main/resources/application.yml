@@ -64,7 +64,7 @@ spring:
 jwt:
   config:
     key: a2V5bmlkaWUxNTQ1NGRqc2Rqa3NqZA==
-    ttl: 100000
+    ttl: 3600000
 
 web:
   url:

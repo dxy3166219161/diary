@@ -1,6 +1,7 @@
 package xyz.dongsir.diaryserver.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,10 +26,15 @@ public class WebHoldUpConfigurer implements WebMvcConfigurer {
     @Value("${web.url.whitelist}")
     private String whitelist;
 
+    @Bean
+    public HoldUpProcessConfig holdUpProcessConfig(){
+        return new HoldUpProcessConfig();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
-        InterceptorRegistration registration = registry.addInterceptor(new HoldUpProcessConfig());
+        InterceptorRegistration registration = registry.addInterceptor(holdUpProcessConfig());
         String[] whiteList = whitelist.split(",");
         for (String white : whiteList) {
             registration.excludePathPatterns(white);
